@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -18,6 +19,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,10 +30,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
-import java.util.UUID;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -40,12 +39,13 @@ import info.androidhive.rxjavaretrofit.network.ApiClient;
 import info.androidhive.rxjavaretrofit.network.ApiService;
 import info.androidhive.rxjavaretrofit.network.model.Note;
 import info.androidhive.rxjavaretrofit.network.model.User;
+import info.androidhive.rxjavaretrofit.repository.NotesRepositoryImpl;
 import info.androidhive.rxjavaretrofit.utils.MyDividerItemDecoration;
 import info.androidhive.rxjavaretrofit.utils.PrefUtils;
 import info.androidhive.rxjavaretrofit.utils.RecyclerTouchListener;
+import info.androidhive.rxjavaretrofit.view.impl.NotePresenter;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.functions.Function;
 import io.reactivex.observers.DisposableCompletableObserver;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
@@ -56,6 +56,10 @@ public class MainActivity extends AppCompatActivity {
     private CompositeDisposable disposable = new CompositeDisposable();
     private NotesAdapter mAdapter;
     private List<Note> notesList = new ArrayList<>();
+    String uniqueId = "";
+    @BindView(R.id.progress_circular)
+    ProgressBar progressBar;
+
 
     @BindView(R.id.coordinator_layout)
     CoordinatorLayout coordinatorLayout;
@@ -65,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
 
     @BindView(R.id.txt_empty_notes_view)
     TextView noNotesView;
+    private NotesRepositoryImpl notesRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,11 +77,10 @@ public class MainActivity extends AppCompatActivity {
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-
+        uniqueId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(getString(R.string.activity_title_home));
         setSupportActionBar(toolbar);
-
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -136,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
      */
     private void registerUser() {
         // unique id to identify the device
-        String uniqueId = UUID.randomUUID().toString();
+
 
         disposable.add(
                 apiService
@@ -148,12 +152,10 @@ public class MainActivity extends AppCompatActivity {
                             public void onSuccess(User user) {
                                 // Storing user API Key in preferences
                                 PrefUtils.storeApiKey(getApplicationContext(), user.getApiKey());
-
                                 Toast.makeText(getApplicationContext(),
                                         "Device is registered successfully! ApiKey: " + PrefUtils.getApiKey(getApplicationContext()),
                                         Toast.LENGTH_LONG).show();
                             }
-
                             @Override
                             public void onError(Throwable e) {
                                 Log.e(TAG, "onError: " + e.getMessage());
@@ -168,7 +170,10 @@ public class MainActivity extends AppCompatActivity {
      * map() operator is used to sort the items in descending order by Id
      */
     private void fetchAllNotes() {
-        disposable.add(
+
+        new NotePresenter(progressBar, this).getNotes();
+
+       /* disposable.add(
                 apiService.fetchAllNotes()
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
@@ -176,12 +181,12 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public List<Note> apply(List<Note> notes) throws Exception {
                                 // TODO - note about sort
-                                Collections.sort(notes, new Comparator<Note>() {
+                               *//* Collections.sort(notes, new Comparator<Note>() {
                                     @Override
                                     public int compare(Note n1, Note n2) {
                                         return n2.getId() - n1.getId();
                                     }
-                                });
+                                });*//*
                                 return notes;
                             }
                         })
@@ -201,14 +206,16 @@ public class MainActivity extends AppCompatActivity {
                                 showError(e);
                             }
                         })
-        );
+        );*/
     }
 
     /**
      * Creating new note
      */
     private void createNote(String note) {
-        disposable.add(
+        new NotePresenter(progressBar, this).createNote(note);
+
+       /* disposable.add(
                 apiService.createNote(note)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
@@ -235,13 +242,13 @@ public class MainActivity extends AppCompatActivity {
                                 Log.e(TAG, "onError: " + e.getMessage());
                                 showError(e);
                             }
-                        }));
+                        }));*/
     }
 
     /**
      * Updating a note
      */
-    private void updateNote(int noteId, final String note, final int position) {
+    private void updateNote(String noteId, final String note, final int position) {
         disposable.add(
                 apiService.updateNote(noteId, note)
                         .subscribeOn(Schedulers.io())
@@ -270,7 +277,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Deleting a note
      */
-    private void deleteNote(final int noteId, final int position) {
+    private void deleteNote(final String noteId, final int position) {
         Log.e(TAG, "deleteNote: " + noteId + ", " + position);
         disposable.add(
                 apiService.deleteNote(noteId)

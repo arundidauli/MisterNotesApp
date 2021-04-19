@@ -1,0 +1,114 @@
+{
+  "project_info": {
+    "project_number": "104448205518",
+    "firebase_url": "https://wingbulldemo-default-rtdb.firebaseio.com",
+    "project_id": "wingbulldemo",
+    "storage_bucket": "wingbulldemo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:104448205518:android:87c7ead85642c61206669f",
+        "android_client_info": {
+          "package_name": "com.arun.android.dreambet"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "104448205518-8k1td5rmdm1pbojqi0vlc3cr9hvgpnbm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCokJARNIlAqD73Z33DM1HvXNL1BGIbXi4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "104448205518-8k1td5rmdm1pbojqi0vlc3cr9hvgpnbm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:104448205518:android:f44a07acd7cdc37c06669f",
+        "android_client_info": {
+          "package_name": "com.shortpedianews"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "104448205518-vd6m0nmrdooge9h9ss59fsqrnhplhph2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.shortpedianews",
+            "certificate_hash": "560c48f6e285f23a38dcfd9e4479d81d2198c47c"
+          }
+        },
+        {
+          "client_id": "104448205518-8k1td5rmdm1pbojqi0vlc3cr9hvgpnbm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCokJARNIlAqD73Z33DM1HvXNL1BGIbXi4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "104448205518-8k1td5rmdm1pbojqi0vlc3cr9hvgpnbm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:104448205518:android:14224276517eac0306669f",
+        "android_client_info": {
+          "package_name": "info.androidhive.rxjavaretrofit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "104448205518-ucnbq9hb1simat9et6i81k72tgdr91ee.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "info.androidhive.rxjavaretrofit",
+            "certificate_hash": "560c48f6e285f23a38dcfd9e4479d81d2198c47c"
+          }
+        },
+        {
+          "client_id": "104448205518-8k1td5rmdm1pbojqi0vlc3cr9hvgpnbm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCokJARNIlAqD73Z33DM1HvXNL1BGIbXi4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "104448205518-8k1td5rmdm1pbojqi0vlc3cr9hvgpnbm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

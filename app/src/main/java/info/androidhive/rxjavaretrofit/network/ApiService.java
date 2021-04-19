@@ -19,6 +19,8 @@ import retrofit2.http.Path;
  */
 
 public interface ApiService {
+
+
     // Register new user
     @FormUrlEncoded
     @POST("notes/user/register")
@@ -36,9 +38,11 @@ public interface ApiService {
     // Update single note
     @FormUrlEncoded
     @PUT("notes/{id}")
-    Completable updateNote(@Path("id") int noteId, @Field("note") String note);
+    Completable updateNote(@Path("id") String noteId, @Field("note") String note);
 
     // Delete note
     @DELETE("notes/{id}")
-    Completable deleteNote(@Path("id") int noteId);
+    Completable deleteNote(@Path("id") String noteId);
+
+
 }
