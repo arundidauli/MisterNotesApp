@@ -5,54 +5,46 @@ package info.androidhive.rxjavaretrofit.view;
  */
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.Color;
-import android.support.v7.widget.RecyclerView;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import java.text.ParseException;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import info.androidhive.rxjavaretrofit.R;
+import info.androidhive.rxjavaretrofit.network.model.ItemLongPressInterface;
 import info.androidhive.rxjavaretrofit.network.model.Note;
 
 public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.MyViewHolder> {
+    private final Context context;
+    private final List<Note> notesList;
+    private final ItemLongPressInterface itemLongPressInterface;
+    public String[] mColors = {"BF55EC", "19B5FE", "2ABB9B", "F4D03F", "95A5A6", "DB5A6B", "2ABB9B", "5E97F6", "9CCC65", "4DD0E1", "A1887F"};
 
-    private Context context;
-    private List<Note> notesList;
-
-    public class MyViewHolder extends RecyclerView.ViewHolder {
-
-        @BindView(R.id.note)
-        TextView note;
-
-        @BindView(R.id.dot)
-        TextView dot;
-
-        @BindView(R.id.timestamp)
-        TextView timestamp;
-
-        public MyViewHolder(View view) {
-            super(view);
-            ButterKnife.bind(this, view);
-        }
-    }
-
-
-    public NotesAdapter(Context context, List<Note> notesList) {
+    public NotesAdapter(Context context, List<Note> notesList, ItemLongPressInterface noteListener) {
         this.context = context;
         this.notesList = notesList;
+        this.itemLongPressInterface = noteListener;
     }
 
+    public static int getRandomColor() {
+        Random rnd = new Random();
+        return Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
+    }
+
+    @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
@@ -62,19 +54,27 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.MyViewHolder
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
-        Note note = notesList.get(position);
+    public void onBindViewHolder(@NonNull MyViewHolder holder, final int i) {
+        final Note note = notesList.get(i);
+        Random r = new Random();
+        int i1 = r.nextInt(11 - 0) + 0;
+        String color = "#FF" + mColors[i1];
+        holder.rl_root.setBackgroundColor(Color.parseColor(color));
+
 
         holder.note.setText(note.getNote());
-
-        // Displaying dot from HTML character code
-        holder.dot.setText(Html.fromHtml("&#8226;"));
-
-        // Changing dot color to random color
-        holder.dot.setTextColor(getRandomMaterialColor("400"));
-
         // Formatting and displaying timestamp
-        holder.timestamp.setText(formatDate(note.getTimestamp()));
+        holder.timestamp.setText(convertTime(note.getTimestamp()));
+
+        holder.rl_root.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                itemLongPressInterface.onLongPress(note);
+                return false;
+            }
+        });
+
+
     }
 
     @Override
@@ -83,36 +83,29 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.MyViewHolder
     }
 
     /**
-     * Chooses random color defined in res/array.xml
-     */
-    private int getRandomMaterialColor(String typeColor) {
-        int returnColor = Color.GRAY;
-        int arrayId = context.getResources().getIdentifier("mdcolor_" + typeColor, "array", context.getPackageName());
-
-        if (arrayId != 0) {
-            TypedArray colors = context.getResources().obtainTypedArray(arrayId);
-            int index = (int) (Math.random() * colors.length());
-            returnColor = colors.getColor(index, Color.GRAY);
-            colors.recycle();
-        }
-        return returnColor;
-    }
-
-    /**
      * Formatting timestamp to `MMM d` format
      * Input: 2018-02-21 00:15:42
      * Output: Feb 21
      */
-    private String formatDate(String dateStr) {
-        try {
-            SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
-            Date date = fmt.parse(dateStr);
-            SimpleDateFormat fmtOut = new SimpleDateFormat("MMM d", Locale.getDefault());
-            return fmtOut.format(date);
-        } catch (ParseException e) {
+    public String convertTime(String time) {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy hh:mm a", Locale.getDefault());
+        return formatter.format(new Date(Long.parseLong(time)));
+    }
 
+    public static class MyViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.note)
+        TextView note;
+
+        @BindView(R.id.timestamp)
+        TextView timestamp;
+
+        @BindView(R.id.rl_root)
+        RelativeLayout rl_root;
+
+
+        public MyViewHolder(View view) {
+            super(view);
+            ButterKnife.bind(this, view);
         }
-
-        return "";
     }
 }

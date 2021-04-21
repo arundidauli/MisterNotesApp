@@ -7,6 +7,6 @@ public class Constant {
     public static final String UPDATE = "UPDATE";
     public static final String DELETE = "DELETE";
     public static final String EMPLOYEE_MODEL = "NOTE_MODEL";
-    public static final String Note_MODEL = "userNote";
+    public static final String USER_NOTE = "userNote";
     public static final String BR = "BR";
 }

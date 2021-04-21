@@ -6,11 +6,23 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowBackground">#FFFFFF</item>
+        <item name="fontFamily">@font/netproximanovasoft</item>
+        <item name="android:fontFamily">@font/netproximanovasoft</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="fontFamily">@font/netproximanovasoft</item>
+        <item name="android:fontFamily">@font/netproximanovasoft</item>
+    </style>
+
+    <style name="FullScreen" parent="AppTheme">
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="fontFamily">@font/netproximanovasoft</item>
+        <item name="android:fontFamily">@font/netproximanovasoft</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Light" />

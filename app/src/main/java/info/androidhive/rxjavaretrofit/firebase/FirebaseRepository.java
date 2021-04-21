@@ -1,6 +1,8 @@
 package info.androidhive.rxjavaretrofit.firebase;
 
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -10,10 +12,9 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.Map;
 
-import info.androidhive.rxjavaretrofit.repository.CallBack;
 import info.androidhive.rxjavaretrofit.utils.Constant;
 
-public abstract class FirebaseRepository {
+public abstract class FirebaseRepository extends AppCompatActivity {
 
     /**
      * Insert data on FireBase

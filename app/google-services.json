@@ -108,6 +108,43 @@
           ]
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:104448205518:android:29c7382d1688049a06669f",
+        "android_client_info": {
+          "package_name": "info.arun.amdroid.mrnote"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "104448205518-ci4q9vacpbvb5660q6kpe44p1ncgfta5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "info.arun.amdroid.mrnote",
+            "certificate_hash": "560c48f6e285f23a38dcfd9e4479d81d2198c47c"
+          }
+        },
+        {
+          "client_id": "104448205518-8k1td5rmdm1pbojqi0vlc3cr9hvgpnbm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCokJARNIlAqD73Z33DM1HvXNL1BGIbXi4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "104448205518-8k1td5rmdm1pbojqi0vlc3cr9hvgpnbm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
     }
   ],
   "configuration_version": "1"
